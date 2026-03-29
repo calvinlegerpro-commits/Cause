@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Causer — Dictée vocale locale</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <h1>Causer</h1>
+    <p class="tagline">Dictée vocale locale. Simple, rapide, privé.</p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="num">1</span>
+        <span>Télécharge et installe Causer</span>
+      </div>
+      <div class="step">
+        <span class="num">2</span>
+        <span>Accorde les permissions micro et accessibilité</span>
+      </div>
+      <div class="step">
+        <span class="num">3</span>
+        <span>Appuie sur ton raccourci et parle</span>
+      </div>
+    </div>
+
+    <a id="download-btn" href="#" class="btn">Télécharger</a>
+    <p id="platform-note" class="note"></p>
+
+    <p class="other-versions">
+      Autre plateforme ? <a id="releases-link" href="#">Voir toutes les versions</a>
+    </p>
+  </main>
+
+  <script>
+    const GITHUB_USER = 'calvinlegerpro-commits';
+    const GITHUB_REPO = 'Cause';
+    const RELEASES_URL = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/releases/latest`;
+
+    const btn = document.getElementById('download-btn');
+    const note = document.getElementById('platform-note');
+    const releasesLink = document.getElementById('releases-link');
+
+    releasesLink.href = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/releases`;
+
+    const ua = navigator.userAgent;
+    if (/Mac/.test(ua)) {
+      btn.href = `${RELEASES_URL}/download/Causer_aarch64.dmg`;
+      btn.textContent = 'Télécharger pour Mac';
+      note.textContent = 'macOS 12 ou supérieur requis — Apple Silicon ou Intel';
+    } else if (/Win/.test(ua)) {
+      btn.href = `${RELEASES_URL}/download/Causer_x64-setup.exe`;
+      btn.textContent = 'Télécharger pour Windows';
+      note.textContent = 'Windows 10 ou supérieur requis';
+    } else {
+      btn.href = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/releases`;
+      btn.textContent = 'Voir les téléchargements';
+      note.textContent = 'Voir la page releases pour toutes les plateformes';
+    }
+  </script>
+</body>
+</html>
