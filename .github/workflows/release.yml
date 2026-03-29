@@ -68,7 +68,7 @@ jobs:
       platform: ${{ matrix.platform }}
       target: ${{ matrix.target }}
       build-args: ${{ matrix.args }}
-      sign-binaries: false
+      sign-binaries: true
       apple_signing: false
       asset-prefix: "causer"
       upload-artifacts: false

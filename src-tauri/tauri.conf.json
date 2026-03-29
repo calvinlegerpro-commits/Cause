@@ -71,5 +71,12 @@
     },
     "windows": {}
   },
-  "plugins": {}
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEMzMTRCNzBDQUI2MkFDMUIKUldRYnJHS3JETGNVdzdYTlN4czFBbVdsWm9GMVBCcW5tVUE5Rm5oem5GYVFiSWhQRnZaQjNqcUgK",
+      "endpoints": [
+        "https://github.com/calvinlegerpro-commits/Cause/releases/latest/download/latest.json"
+      ]
+    }
+  }
 }
