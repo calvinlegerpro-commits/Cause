@@ -43,3 +43,6 @@ secrets.env
 
 # Local release helpers / secrets
 .claude/skills/release-macos/
+
+# Brainstorm session files
+.superpowers/
