@@ -1,11 +1,13 @@
 {
   "tray": {
-    "settings": "Settings...",
+    "settings": "Advanced Settings...",
     "checkUpdates": "Check for Updates...",
     "copyLastTranscript": "Copy Last Transcript",
     "unloadModel": "Unload Model",
     "quit": "Quit",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "model": "Model",
+    "openApp": "Open Causer"
   },
   "sidebar": {
     "general": "General",

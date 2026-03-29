@@ -174,8 +174,13 @@ fn initialize_core_logic(app_handle: &AppHandle) {
         .show_menu_on_left_click(true)
         .icon_as_template(true)
         .on_menu_event(|app, event| match event.id.as_ref() {
+            "open_app" => {
+                show_main_window(app);
+                let _ = app.emit("navigate-to-section", "general");
+            }
             "settings" => {
                 show_main_window(app);
+                let _ = app.emit("navigate-to-section", "advanced");
             }
             "check_updates" => {
                 let settings = settings::get_settings(app);
@@ -206,6 +211,24 @@ fn initialize_core_logic(app_handle: &AppHandle) {
             }
             "quit" => {
                 app.exit(0);
+            }
+            id if id.starts_with("select_model_") => {
+                let model_id = id.trim_start_matches("select_model_").to_string();
+                let model_manager = app.state::<Arc<ModelManager>>();
+                let transcription_manager = app.state::<Arc<TranscriptionManager>>();
+                if let Some(info) = model_manager.get_model_info(&model_id) {
+                    if info.is_downloaded {
+                        match transcription_manager.load_model(&model_id) {
+                            Ok(()) => {
+                                let mut settings = settings::get_settings(app);
+                                settings.selected_model = model_id;
+                                settings::write_settings(app, settings);
+                                tray::update_tray_menu(app, &tray::TrayIconState::Idle, None);
+                            }
+                            Err(e) => log::error!("Failed to load model via tray: {}", e),
+                        }
+                    }
+                }
             }
             _ => {}
         })

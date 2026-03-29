@@ -459,6 +459,10 @@ impl HistoryManager {
         self.recordings_dir.join(file_name)
     }
 
+    pub fn get_recordings_dir(&self) -> PathBuf {
+        self.recordings_dir.clone()
+    }
+
     pub fn update_transcription_text(
         &self,
         id: i64,

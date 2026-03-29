@@ -17,7 +17,7 @@ const ParlerTextLogo = ({
         width,
       }}
     >
-      <span className="text-logo-primary">PARLER</span>
+      <span className="text-logo-primary">CAUSER</span>
     </div>
   );
 };

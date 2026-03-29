@@ -1,11 +1,13 @@
 {
   "tray": {
-    "settings": "Настройки...",
+    "settings": "Расширенные настройки...",
     "checkUpdates": "Проверить обновления...",
     "copyLastTranscript": "Скопировать последнюю транскрипцию",
     "unloadModel": "Выгрузить модель",
     "quit": "Выход",
-    "cancel": "Отмена"
+    "cancel": "Отмена",
+    "model": "Модель",
+    "openApp": "Открыть Causer"
   },
   "sidebar": {
     "general": "Общие",

@@ -1,11 +1,13 @@
 {
   "tray": {
-    "settings": "Ayarlar...",
+    "settings": "Gelişmiş Ayarlar...",
     "checkUpdates": "Güncellemeleri Kontrol Et...",
     "copyLastTranscript": "Son transkripti kopyala",
     "unloadModel": "Modeli boşalt",
     "quit": "Çıkış",
-    "cancel": "İptal"
+    "cancel": "İptal",
+    "model": "Model",
+    "openApp": "Causer'ı Aç"
   },
   "sidebar": {
     "general": "Genel",

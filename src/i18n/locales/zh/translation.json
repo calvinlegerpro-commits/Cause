@@ -1,11 +1,13 @@
 {
   "tray": {
-    "settings": "设置...",
+    "settings": "高级设置...",
     "checkUpdates": "检查更新...",
     "copyLastTranscript": "复制最新转录",
     "unloadModel": "卸载模型",
     "quit": "退出",
-    "cancel": "取消"
+    "cancel": "取消",
+    "model": "模型",
+    "openApp": "打开 Causer"
   },
   "sidebar": {
     "general": "通用",

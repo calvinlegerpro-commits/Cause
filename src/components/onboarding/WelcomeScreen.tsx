@@ -11,7 +11,6 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onStart }) => {
   return (
     <div className="h-screen w-screen flex flex-col items-center justify-center gap-6 p-6">
       <div className="flex flex-col items-center gap-3">
-        <h1 className="text-4xl font-bold text-logo-primary">Causer</h1>
         <h1 className="text-2xl font-semibold text-text">
           {t("onboarding.welcome.title")}
         </h1>

@@ -1,11 +1,13 @@
 {
   "tray": {
-    "settings": "Einstellungen...",
+    "settings": "Erweiterte Einstellungen...",
     "checkUpdates": "Nach Updates suchen...",
     "copyLastTranscript": "Letzte Transkription kopieren",
     "unloadModel": "Modell entladen",
     "quit": "Beenden",
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "model": "Modell",
+    "openApp": "Causer öffnen"
   },
   "sidebar": {
     "general": "Allgemein",

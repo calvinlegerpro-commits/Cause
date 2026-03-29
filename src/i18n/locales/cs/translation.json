@@ -1,11 +1,13 @@
 {
   "tray": {
-    "settings": "Nastavení...",
+    "settings": "Pokročilá nastavení...",
     "checkUpdates": "Zkontrolovat aktualizace...",
     "copyLastTranscript": "Zkopírovat poslední přepis",
     "unloadModel": "Uvolnit model",
     "quit": "Ukončit",
-    "cancel": "Zrušit"
+    "cancel": "Zrušit",
+    "model": "Model",
+    "openApp": "Otevřít Causer"
   },
   "sidebar": {
     "general": "Obecné",

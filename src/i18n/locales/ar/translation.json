@@ -1,11 +1,13 @@
 {
   "tray": {
-    "settings": "...الإعدادات",
+    "settings": "الإعدادات المتقدمة...",
     "checkUpdates": "...التحقق من وجود تحديثات",
     "copyLastTranscript": "نسخ آخر نص تم تفريغه",
     "unloadModel": "تفريغ النموذج",
     "quit": "إنهاء",
-    "cancel": "إلغاء"
+    "cancel": "إلغاء",
+    "model": "النموذج",
+    "openApp": "فتح كوزر"
   },
   "sidebar": {
     "general": "عام",

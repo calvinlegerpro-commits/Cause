@@ -143,13 +143,16 @@ fn build_apple_intelligence_bridge() {
     // Check if the SDK supports FoundationModels (required for Apple Intelligence)
     let framework_path =
         Path::new(&sdk_path).join("System/Library/Frameworks/FoundationModels.framework");
-    let has_foundation_models = framework_path.exists();
+    // Also check that the macro plugin is available (absent on macOS 26 beta CLI toolchain)
+    let macro_plugin_path = Path::new(&sdk_path)
+        .join("System/Library/Frameworks/FoundationModels.framework/Versions/A/FoundationModelsMacros");
+    let has_foundation_models = framework_path.exists() && macro_plugin_path.exists();
 
     let source_file = if has_foundation_models {
         println!("cargo:warning=Building with Apple Intelligence support.");
         REAL_SWIFT_FILE
     } else {
-        println!("cargo:warning=Apple Intelligence SDK not found. Building with stubs.");
+        println!("cargo:warning=Apple Intelligence SDK not found or macro plugin unavailable. Building with stubs.");
         STUB_SWIFT_FILE
     };
 

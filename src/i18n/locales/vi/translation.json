@@ -1,11 +1,13 @@
 {
   "tray": {
-    "settings": "Cài đặt...",
+    "settings": "Cài đặt nâng cao...",
     "checkUpdates": "Kiểm tra cập nhật...",
     "copyLastTranscript": "Sao chép bản chép lời mới nhất",
     "unloadModel": "Dỡ mô hình",
     "quit": "Thoát",
-    "cancel": "Hủy"
+    "cancel": "Hủy",
+    "model": "Mô hình",
+    "openApp": "Mở Causer"
   },
   "sidebar": {
     "general": "Chung",

@@ -1,4 +1,5 @@
 use crate::managers::history::{HistoryEntry, HistoryManager};
+use crate::managers::model::ModelManager;
 use crate::managers::transcription::TranscriptionManager;
 use std::sync::Arc;
 use tauri::{AppHandle, State};
@@ -35,8 +36,21 @@ pub async fn get_audio_file_path(
     history_manager: State<'_, Arc<HistoryManager>>,
     file_name: String,
 ) -> Result<String, String> {
+    // Reject file names containing path separators or traversal sequences
+    if file_name.contains('/') || file_name.contains('\\') || file_name.contains("..") {
+        return Err("Invalid file name".to_string());
+    }
     let path = history_manager.get_audio_file_path(&file_name);
-    path.to_str()
+    // Ensure the resolved path stays within the recordings directory
+    let recordings_dir = history_manager.get_recordings_dir();
+    let canonical = path
+        .canonicalize()
+        .map_err(|_| "File not found".to_string())?;
+    if !canonical.starts_with(&recordings_dir) {
+        return Err("Access denied".to_string());
+    }
+    canonical
+        .to_str()
         .ok_or_else(|| "Invalid file path".to_string())
         .map(|s| s.to_string())
 }
@@ -78,9 +92,18 @@ pub async fn reprocess_history_entry(
     _app: AppHandle,
     history_manager: State<'_, Arc<HistoryManager>>,
     transcription_manager: State<'_, Arc<TranscriptionManager>>,
+    model_manager: State<'_, Arc<ModelManager>>,
     id: i64,
     model_id: String,
 ) -> Result<String, String> {
+    // Validate that the model exists and is downloaded
+    let model_info = model_manager
+        .get_model_info(&model_id)
+        .ok_or_else(|| format!("Model not found: {}", model_id))?;
+    if !model_info.is_downloaded {
+        return Err(format!("Model not downloaded: {}", model_id));
+    }
+
     let entry = history_manager
         .get_entry_by_id(id)
         .await

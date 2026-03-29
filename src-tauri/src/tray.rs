@@ -1,11 +1,12 @@
 use crate::managers::history::{HistoryEntry, HistoryManager};
+use crate::managers::model::ModelManager;
 use crate::managers::transcription::TranscriptionManager;
 use crate::settings;
 use crate::tray_i18n::get_tray_translations;
 use log::{error, info, warn};
 use std::sync::Arc;
 use tauri::image::Image;
-use tauri::menu::{Menu, MenuItem, PredefinedMenuItem};
+use tauri::menu::{CheckMenuItem, Menu, MenuItem, PredefinedMenuItem, Submenu};
 use tauri::tray::TrayIcon;
 use tauri::{AppHandle, Manager, Theme};
 use tauri_plugin_clipboard_manager::ClipboardExt;
@@ -88,11 +89,15 @@ pub fn update_tray_menu(app: &AppHandle, state: &TrayIconState, locale: Option<&
 
     // Platform-specific accelerators
     #[cfg(target_os = "macos")]
-    let (settings_accelerator, quit_accelerator) = (Some("Cmd+,"), Some("Cmd+Q"));
+    let (open_accelerator, settings_accelerator, quit_accelerator) =
+        (Some("Cmd+Shift+H"), Some("Cmd+,"), Some("Cmd+Q"));
     #[cfg(not(target_os = "macos"))]
-    let (settings_accelerator, quit_accelerator) = (Some("Ctrl+,"), Some("Ctrl+Q"));
+    let (open_accelerator, settings_accelerator, quit_accelerator) =
+        (Some("Ctrl+Shift+H"), Some("Ctrl+,"), Some("Ctrl+Q"));
 
     // Create common menu items
+    let open_app_i = MenuItem::with_id(app, "open_app", &strings.open_app, true, open_accelerator)
+        .expect("failed to create open app item");
     let version_label = if cfg!(debug_assertions) {
         format!("Causer v{} (Dev)", env!("CARGO_PKG_VERSION"))
     } else {
@@ -137,6 +142,34 @@ pub fn update_tray_menu(app: &AppHandle, state: &TrayIconState, locale: Option<&
         .expect("failed to create quit item");
     let separator = || PredefinedMenuItem::separator(app).expect("failed to create separator");
 
+    // Build model submenu with downloaded models
+    let current_model = settings.selected_model.clone();
+    let model_manager = app.state::<Arc<ModelManager>>();
+    let downloaded_models: Vec<_> = model_manager
+        .get_available_models()
+        .into_iter()
+        .filter(|m| m.is_downloaded)
+        .collect();
+    let model_submenu = if downloaded_models.is_empty() {
+        None
+    } else {
+        let items: Vec<CheckMenuItem<tauri::Wry>> = downloaded_models
+            .iter()
+            .map(|m| {
+                let id = format!("select_model_{}", m.id);
+                let is_selected = m.id == current_model;
+                CheckMenuItem::with_id(app, id, &m.name, true, is_selected, None::<&str>)
+                    .expect("failed to create model menu item")
+            })
+            .collect();
+        let item_refs: Vec<&dyn tauri::menu::IsMenuItem<tauri::Wry>> =
+            items.iter().map(|i| i as &dyn tauri::menu::IsMenuItem<tauri::Wry>).collect();
+        Some(
+            Submenu::with_items(app, &strings.model, true, &item_refs)
+                .expect("failed to create model submenu"),
+        )
+    };
+
     let menu = match state {
         TrayIconState::Recording | TrayIconState::Transcribing => {
             let cancel_i = MenuItem::with_id(app, "cancel", &strings.cancel, true, None::<&str>)
@@ -144,6 +177,7 @@ pub fn update_tray_menu(app: &AppHandle, state: &TrayIconState, locale: Option<&
             Menu::with_items(
                 app,
                 &[
+                    &open_app_i,
                     &version_i,
                     &separator(),
                     &cancel_i,
@@ -158,21 +192,45 @@ pub fn update_tray_menu(app: &AppHandle, state: &TrayIconState, locale: Option<&
             )
             .expect("failed to create menu")
         }
-        TrayIconState::Idle => Menu::with_items(
-            app,
-            &[
-                &version_i,
-                &separator(),
-                &copy_last_transcript_i,
-                &unload_model_i,
-                &separator(),
-                &settings_i,
-                &check_updates_i,
-                &separator(),
-                &quit_i,
-            ],
-        )
-        .expect("failed to create menu"),
+        TrayIconState::Idle => {
+            if let Some(ref submenu) = model_submenu {
+                Menu::with_items(
+                    app,
+                    &[
+                        &open_app_i,
+                        &version_i,
+                        &separator(),
+                        submenu,
+                        &separator(),
+                        &copy_last_transcript_i,
+                        &unload_model_i,
+                        &separator(),
+                        &settings_i,
+                        &check_updates_i,
+                        &separator(),
+                        &quit_i,
+                    ],
+                )
+                .expect("failed to create menu")
+            } else {
+                Menu::with_items(
+                    app,
+                    &[
+                        &open_app_i,
+                        &version_i,
+                        &separator(),
+                        &copy_last_transcript_i,
+                        &unload_model_i,
+                        &separator(),
+                        &settings_i,
+                        &check_updates_i,
+                        &separator(),
+                        &quit_i,
+                    ],
+                )
+                .expect("failed to create menu")
+            }
+        }
     };
 
     let tray = app.state::<TrayIcon>();

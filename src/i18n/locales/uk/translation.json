@@ -1,11 +1,13 @@
 {
   "tray": {
-    "settings": "Налаштування...",
+    "settings": "Розширені налаштування...",
     "checkUpdates": "Перевірити оновлення...",
     "copyLastTranscript": "Скопіювати останню транскрипцію",
     "unloadModel": "Вивантажити модель",
     "quit": "Вийти",
-    "cancel": "Скасувати"
+    "cancel": "Скасувати",
+    "model": "Модель",
+    "openApp": "Відкрити Causer"
   },
   "sidebar": {
     "general": "Загальні",
