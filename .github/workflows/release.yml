@@ -78,7 +78,7 @@ jobs:
       build-args: ${{ matrix.args }}
       sign-binaries: true
       apple_signing: ${{ matrix.apple_signing }}
-      asset-prefix: "parler"
+      asset-prefix: "causer"
       upload-artifacts: false
       release-id: ${{ needs.create-release.outputs.release-id }}
     secrets: inherit
