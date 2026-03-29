@@ -227,7 +227,8 @@
         "output": "Вывод",
         "transcription": "Транскрипция",
         "history": "История",
-        "experimental": "Экспериментальное"
+        "experimental": "Экспериментальное",
+        "recording": "Запись"
       },
       "experimentalToggle": {
         "label": "Экспериментальные функции",

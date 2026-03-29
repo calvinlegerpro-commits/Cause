@@ -11,7 +11,9 @@ import { PasteMethodSetting } from "../PasteMethod";
 import { TypingToolSetting } from "../TypingTool";
 import { ClipboardHandlingSetting } from "../ClipboardHandling";
 import { AutoSubmit } from "../AutoSubmit";
-
+import { PushToTalk } from "../PushToTalk";
+import { MuteWhileRecording } from "../MuteWhileRecording";
+import { OutputDeviceSelector } from "../OutputDeviceSelector";
 import { AppendTrailingSpace } from "../AppendTrailingSpace";
 import { HistoryLimit } from "../HistoryLimit";
 import { RecordingRetentionPeriodSelector } from "../RecordingRetentionPeriod";
@@ -33,6 +35,12 @@ export const AdvancedSettings: React.FC = () => {
         <ShowOverlay descriptionMode="tooltip" grouped={true} />
         <ModelUnloadTimeoutSetting descriptionMode="tooltip" grouped={true} />
         <ExperimentalToggle descriptionMode="tooltip" grouped={true} />
+      </SettingsGroup>
+
+      <SettingsGroup title={t("settings.advanced.groups.recording")}>
+        <PushToTalk descriptionMode="tooltip" grouped={true} />
+        <MuteWhileRecording descriptionMode="tooltip" grouped={true} />
+        <OutputDeviceSelector descriptionMode="tooltip" grouped={true} />
       </SettingsGroup>
 
       <SettingsGroup title={t("settings.advanced.groups.output")}>

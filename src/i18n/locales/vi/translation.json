@@ -236,7 +236,8 @@
         "output": "Đầu ra",
         "transcription": "Chuyển đổi",
         "history": "Lịch sử",
-        "experimental": "Thử nghiệm"
+        "experimental": "Thử nghiệm",
+        "recording": "Ghi âm"
       },
       "experimentalToggle": {
         "label": "Tính năng thử nghiệm",

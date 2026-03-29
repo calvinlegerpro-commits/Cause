@@ -227,7 +227,8 @@
         "output": "Вивід",
         "transcription": "Транскрипція",
         "history": "Історія",
-        "experimental": "Експериментальне"
+        "experimental": "Експериментальне",
+        "recording": "Запис"
       },
       "experimentalToggle": {
         "label": "Експериментальні функції",

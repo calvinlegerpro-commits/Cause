@@ -236,7 +236,8 @@
         "output": "Salida",
         "transcription": "Transcripción",
         "history": "Historial",
-        "experimental": "Experimental"
+        "experimental": "Experimental",
+        "recording": "Grabación"
       },
       "experimentalToggle": {
         "label": "Funciones Experimentales",

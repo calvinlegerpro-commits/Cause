@@ -270,7 +270,8 @@
         "transcription": "Transcription",
         "history": "History",
         "experimental": "Experimental",
-        "cloudModels": "Cloud Models"
+        "cloudModels": "Cloud Models",
+        "recording": "Recording"
       },
       "experimentalToggle": {
         "label": "Experimental Features",

@@ -227,7 +227,8 @@
         "output": "Wyjście",
         "transcription": "Transkrypcja",
         "history": "Historia",
-        "experimental": "Eksperymentalne"
+        "experimental": "Eksperymentalne",
+        "recording": "Nagrywanie"
       },
       "experimentalToggle": {
         "label": "Funkcje Eksperymentalne",
