@@ -11,14 +11,14 @@ import { listen } from "@tauri-apps/api/event";
 import "./App.css";
 import AccessibilityPermissions from "./components/AccessibilityPermissions";
 import Footer from "./components/footer";
-import Onboarding, { AccessibilityOnboarding } from "./components/onboarding";
+import Onboarding, { AccessibilityOnboarding, WelcomeScreen } from "./components/onboarding";
 import { Sidebar, SidebarSection, SECTIONS_CONFIG } from "./components/Sidebar";
 import { useSettings } from "./hooks/useSettings";
 import { useSettingsStore } from "./stores/settingsStore";
 import { commands } from "@/bindings";
 import { getLanguageDirection, initializeRTL } from "@/lib/utils/rtl";
 
-type OnboardingStep = "accessibility" | "model" | "done";
+type OnboardingStep = "welcome" | "accessibility" | "model" | "done";
 
 const renderSettingsContent = (section: SidebarSection) => {
   const ActiveComponent =
@@ -138,14 +138,18 @@ function App() {
         }
         setOnboardingStep("done");
       } else {
-        // New user - dev flavor skips permissions (can't grant to debug binary)
+        // New user - show welcome screen first, then permissions/model
         setIsReturningUser(false);
-        setOnboardingStep(isDevFlavor ? "model" : "accessibility");
+        setOnboardingStep(isDevFlavor ? "model" : "welcome");
       }
     } catch (error) {
       console.error("Failed to check onboarding status:", error);
-      setOnboardingStep("accessibility");
+      setOnboardingStep("welcome");
     }
+  };
+
+  const handleWelcomeStart = () => {
+    setOnboardingStep("accessibility");
   };
 
   const handleAccessibilityComplete = () => {
@@ -162,6 +166,10 @@ function App() {
   // Still checking onboarding status
   if (onboardingStep === null) {
     return null;
+  }
+
+  if (onboardingStep === "welcome") {
+    return <WelcomeScreen onStart={handleWelcomeStart} />;
   }
 
   if (onboardingStep === "accessibility") {

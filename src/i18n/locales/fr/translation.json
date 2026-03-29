@@ -17,6 +17,11 @@
     "about": "À propos"
   },
   "onboarding": {
+    "welcome": {
+      "title": "Bienvenue dans Causer",
+      "subtitle": "Votre outil de dictée vocale, simple et rapide.",
+      "cta": "Commencer →"
+    },
     "subtitle": "Pour commencer, choisissez un modèle de transcription",
     "recommended": "Recommandé",
     "download": "Télécharger",
@@ -38,11 +43,11 @@
       },
       "turbo": {
         "name": "Whisper Turbo",
-        "description": "Équilibre entre précision et vitesse."
+        "description": "Recommandé — rapide, fonctionne en français et anglais"
       },
       "large": {
         "name": "Whisper Large",
-        "description": "Bonne précision, mais lent."
+        "description": "Précis — plus lent, idéal pour un usage professionnel"
       },
       "parakeet-tdt-0.6b-v2": {
         "name": "Parakeet V2",
@@ -50,7 +55,7 @@
       },
       "parakeet-tdt-0.6b-v3": {
         "name": "Parakeet V3",
-        "description": "Rapide et précis"
+        "description": "Sans carte graphique — compatible avec tous les ordinateurs"
       },
       "moonshine-base": {
         "name": "Moonshine Base",
@@ -87,7 +92,7 @@
     },
     "permissions": {
       "title": "Autorisations requises",
-      "description": "Parler a besoin de quelques autorisations pour fonctionner correctement.",
+      "description": "Causer a besoin de quelques autorisations pour fonctionner correctement.",
       "microphone": {
         "title": "Accès au microphone",
         "description": "Nécessaire pour entendre votre voix pour la transcription."
@@ -191,7 +196,7 @@
     "general": {
       "title": "Général",
       "shortcut": {
-        "title": "Raccourcis Parler",
+        "title": "Raccourcis Causer",
         "description": "Configurer les raccourcis clavier pour déclencher l'enregistrement de la reconnaissance vocale",
         "loading": "Chargement des raccourcis...",
         "none": "Aucun raccourci configuré",
@@ -283,11 +288,11 @@
       },
       "autostart": {
         "label": "Lancer au démarrage",
-        "description": "Démarrer automatiquement Parler lorsque vous vous connectez à votre ordinateur."
+        "description": "Démarrer automatiquement Causer lorsque vous vous connectez à votre ordinateur."
       },
       "showTrayIcon": {
         "label": "Afficher l'icône de la barre",
-        "description": "Afficher l'icône de Parler dans la barre système."
+        "description": "Afficher l'icône de Causer dans la barre système."
       },
       "overlay": {
         "title": "Position de la fenêtre d'enregistrement",
@@ -489,7 +494,7 @@
       },
       "updateChecks": {
         "label": "Vérifier les mises à jour",
-        "description": "Vérifier automatiquement les nouvelles versions de Parler"
+        "description": "Vérifier automatiquement les nouvelles versions de Causer"
       },
       "soundTheme": {
         "label": "Thème sonore",
@@ -553,11 +558,11 @@
       "title": "À propos",
       "version": {
         "title": "Version",
-        "description": "Version actuelle de Parler"
+        "description": "Version actuelle de Causer"
       },
       "appDataDirectory": {
         "title": "Emplacement des données de l'application",
-        "description": "Emplacement où Parler stocke ses données"
+        "description": "Emplacement où Causer stocke ses données"
       },
       "exportImport": {
         "title": "Exporter / Importer les paramètres",
@@ -574,7 +579,7 @@
       },
       "supportDevelopment": {
         "title": "Soutenir le développement",
-        "description": "Aidez-nous à continuer à construire Parler",
+        "description": "Aidez-nous à continuer à construire Causer",
         "button": "Faire un don"
       },
       "acknowledgments": {
@@ -582,7 +587,7 @@
         "whisper": {
           "title": "Whisper.cpp",
           "description": "Inférence haute performance du modèle de reconnaissance vocale automatique Whisper d'OpenAI",
-          "details": "Parler utilise Whisper.cpp pour un traitement rapide et local de la parole en texte. Merci au travail incroyable de Georgi Gerganov et des contributeurs."
+          "details": "Causer utilise Whisper.cpp pour un traitement rapide et local de la parole en texte. Merci au travail incroyable de Georgi Gerganov et des contributeurs."
         }
       }
     }
@@ -625,7 +630,7 @@
   },
   "accessibility": {
     "permissionsRequired": "Autorisations d'accessibilité requises",
-    "permissionsDescription": "Parler a besoin des autorisations d'accessibilité pour taper le texte transcrit.",
+    "permissionsDescription": "Causer a besoin des autorisations d'accessibilité pour taper le texte transcrit.",
     "openSettings": "Ouvrir les Préférences Système",
     "dismiss": "Ignorer"
   },
@@ -634,7 +639,7 @@
   },
   "appLanguage": {
     "title": "Langue de l'application",
-    "description": "Changer la langue de l'interface de Parler"
+    "description": "Changer la langue de l'interface de Causer"
   },
   "overlay": {
     "transcribing": "Transcription...",
