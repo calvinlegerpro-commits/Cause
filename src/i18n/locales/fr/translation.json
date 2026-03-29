@@ -75,6 +75,10 @@
       "sense-voice-int8": {
         "name": "SenseVoice",
         "description": "Très rapide. Chinois, anglais, japonais, coréen, cantonais."
+      },
+      "gemini-api": {
+        "name": "Gemini API",
+        "description": "Transcription via le cloud Google Gemini. Nécessite une clé API et une connexion internet."
       }
     },
     "errors": {
@@ -137,9 +141,25 @@
       "title": "Paramètres de {{model}}",
       "noSettingsNeeded": "Ce modèle fonctionne automatiquement sans configuration nécessaire."
     },
+    "longAudioModel": {
+      "title": "Modèle pour les longs enregistrements",
+      "description": "Basculer automatiquement vers un modèle différent lorsque la durée d'enregistrement dépasse le seuil.",
+      "modelLabel": "Modèle pour les longs enregistrements",
+      "modelDescription": "Sélectionnez un modèle à utiliser pour les enregistrements plus longs que le seuil.",
+      "thresholdLabel": "Seuil de durée (secondes)",
+      "thresholdDescription": "Basculer vers le modèle de long enregistrement lorsque l'enregistrement dépasse cette durée.",
+      "disabled": "Désactivé",
+      "seconds": "{{value}}s"
+    },
     "models": {
       "title": "Modèles de Transcription",
       "description": "Sélectionnez un modèle de transcription ou téléchargez des modèles supplémentaires. Différents modèles offrent différents niveaux de précision et de vitesse.",
+      "tabs": {
+        "transcription": "Transcription",
+        "processing": "Traitement"
+      },
+      "yourModels": "Activés",
+      "availableModels": "Disponibles",
       "downloaded": "Téléchargés",
       "available": "Disponibles au Téléchargement",
       "deleteConfirm": "Êtes-vous sûr de vouloir supprimer {{modelName}} ? Vous devrez le télécharger à nouveau pour l'utiliser.",
@@ -152,8 +172,21 @@
         "allLanguages": "Toutes les langues"
       },
       "noModelsMatch": "Aucun modèle ne correspond à ce filtre.",
-      "yourModels": "Modèles téléchargés",
-      "availableModels": "Disponibles au téléchargement"
+      "processingModels": {
+        "title": "Modèles de traitement",
+        "description": "Enregistrez des modèles LLM pour les utiliser dans les actions de post-traitement.",
+        "noModels": "Aucun modèle de traitement enregistré. Ajoutez-en un pour l'utiliser dans vos actions.",
+        "addModel": "Ajouter un modèle de traitement",
+        "provider": "Fournisseur",
+        "apiKey": "Clé API",
+        "apiKeyPlaceholder": "Entrez la clé API",
+        "model": "Modèle",
+        "modelPlaceholder": "Sélectionner ou saisir un modèle",
+        "save": "Enregistrer",
+        "cancel": "Annuler",
+        "fetchModels": "Récupérer les modèles",
+        "alreadySaved": "Ce modèle est déjà enregistré."
+      }
     },
     "general": {
       "title": "Général",
@@ -236,7 +269,8 @@
         "output": "Sortie",
         "transcription": "Transcription",
         "history": "Historique",
-        "experimental": "Expérimental"
+        "experimental": "Expérimental",
+        "cloudModels": "Modèles cloud"
       },
       "experimentalToggle": {
         "label": "Fonctionnalités Expérimentales",
@@ -388,6 +422,29 @@
         "cancel": "Annuler",
         "selectToEdit": "Sélectionnez un prompt ci-dessus pour voir et modifier ses détails.",
         "createFirst": "Cliquez sur 'Créer un nouveau prompt' ci-dessus pour créer votre premier prompt de post-traitement."
+      },
+      "actions": {
+        "title": "Actions",
+        "description": "Associez les touches Ctrl+chiffre (1-9) à des prompts personnalisés. Appuyez sur un raccourci pendant l'enregistrement pour appliquer l'action après la transcription.",
+        "noActions": "Aucune action configurée.",
+        "createFirst": "Créez votre première action pour traiter les transcriptions avec votre fournisseur configuré.",
+        "addAction": "Ajouter une action",
+        "editAction": "Modifier l'action",
+        "key": "Touche",
+        "keyLabel": "Touche (1-9)",
+        "name": "Nom",
+        "namePlaceholder": "ex. Mode e-mail",
+        "prompt": "Prompt",
+        "promptPlaceholder": "ex. Formatez ceci comme un e-mail professionnel avec salutation et signature. Ajoutez des sauts de ligne entre les paragraphes.",
+        "promptTip": "Astuce : Utilisez <code>${output}</code> pour insérer le texte transcrit dans votre prompt.",
+        "model": "Modèle (optionnel)",
+        "modelPlaceholder": "Sélectionner un modèle",
+        "modelTip": "Sélectionnez un modèle spécifique pour cette action, ou utilisez celui par défaut de la section API.",
+        "defaultModel": "Par défaut",
+        "save": "Enregistrer",
+        "cancel": "Annuler",
+        "delete": "Supprimer",
+        "maxActionsReached": "Maximum de 9 actions atteint."
       }
     },
     "history": {
@@ -400,9 +457,24 @@
       "unsave": "Retirer des favoris",
       "delete": "Supprimer l'entrée",
       "deleteError": "Échec de la suppression de l'entrée. Veuillez réessayer.",
+      "reprocess": "Retraiter avec un autre modèle",
+      "reprocessing": "Retraitement...",
+      "selectModel": "Sélectionner un modèle",
       "originalTranscript": "Original",
       "postProcessed": "Post-traitement",
       "action": "Action {{key}}"
+    },
+    "gemini": {
+      "title": "Gemini API",
+      "description": "Utiliser l'API Gemini de Google pour la transcription dans le cloud. Nécessite une clé API.",
+      "apiKey": "Clé API",
+      "apiKeyPlaceholder": "Entrez votre clé API Gemini",
+      "model": "Modèle",
+      "modelDescription": "Sélectionnez le modèle Gemini à utiliser pour la transcription",
+      "apiKeyRequired": "Clé API requise",
+      "apiKeyRequiredDescription": "Entrez votre clé API Google Gemini pour utiliser la transcription dans le cloud.",
+      "save": "Enregistrer",
+      "cancel": "Annuler"
     },
     "debug": {
       "title": "Débogage",
@@ -462,9 +534,9 @@
         "description": "Ajouter un espace après la transcription collée"
       },
       "keyboardImplementation": {
-        "title": "Keyboard Implementation",
-        "description": "Choose the keyboard shortcut backend.",
-        "bindingsReset": "Keyboard shortcuts were incompatible and reset to defaults"
+        "title": "Implémentation du clavier",
+        "description": "Choisissez le moteur de raccourcis clavier.",
+        "bindingsReset": "Les raccourcis clavier étaient incompatibles et ont été réinitialisés aux valeurs par défaut"
       },
       "paths": {
         "appData": "Données de l'application :",
