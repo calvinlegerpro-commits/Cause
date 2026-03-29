@@ -68,8 +68,8 @@ jobs:
       platform: ${{ matrix.platform }}
       target: ${{ matrix.target }}
       build-args: ${{ matrix.args }}
-      sign-binaries: true
-      apple_signing: ${{ matrix.apple_signing }}
+      sign-binaries: false
+      apple_signing: false
       asset-prefix: "causer"
       upload-artifacts: false
       release-id: ${{ needs.create-release.outputs.release-id }}
