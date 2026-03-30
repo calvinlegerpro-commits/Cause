@@ -55,17 +55,14 @@ jobs:
         if: steps.check.outputs.has_updates == 'true' && steps.existing_issue.outputs.open_count == '0'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMITS: ${{ steps.check.outputs.commits }}
+          COUNT: ${{ steps.check.outputs.count }}
         run: |
-          gh issue create \
-            --title "⬆️ Mise à jour upstream disponible (${{ steps.check.outputs.count }} commits)" \
-            --label "upstream-sync" \
-            --body "## Nouveaux commits sur [cjpais/Handy](https://github.com/cjpais/Handy)
+          BODY="## Nouveaux commits sur [cjpais/Handy](https://github.com/cjpais/Handy)
 
           \`\`\`
-          ${{ steps.check.outputs.commits }}
+          ${COMMITS}
           \`\`\`
-
-          $([ ${{ steps.check.outputs.count }} -gt 30 ] && echo "_...et d'autres commits. Voir https://github.com/cjpais/Handy/commits/main_" || echo "")
 
           ## Que faire ?
 
@@ -81,3 +78,8 @@ jobs:
 
           ---
           _Vérification automatique — upstream : \`cjpais/Handy\`_"
+
+          gh issue create \
+            --title "⬆️ Mise à jour upstream disponible (${COUNT} commits)" \
+            --label "upstream-sync" \
+            --body "$BODY"
