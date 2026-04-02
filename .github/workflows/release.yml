@@ -54,22 +54,25 @@ jobs:
             args: "--target aarch64-apple-darwin"
             target: "aarch64-apple-darwin"
             apple_signing: false
+            sign_binaries: true
           - platform: "macos-latest" # for Intel based macs.
             args: "--target x86_64-apple-darwin"
             target: "x86_64-apple-darwin"
             apple_signing: false
+            sign_binaries: true
           - platform: "windows-latest" # Build NSIS and MSI installers for Windows x64
             args: "--bundles nsis,msi"
             target: "x86_64-pc-windows-msvc"
-            apple_signing: true
+            apple_signing: false
+            sign_binaries: false
 
     uses: ./.github/workflows/build.yml
     with:
       platform: ${{ matrix.platform }}
       target: ${{ matrix.target }}
       build-args: ${{ matrix.args }}
-      sign-binaries: false
-      apple_signing: false
+      sign-binaries: ${{ matrix.sign_binaries }}
+      apple_signing: ${{ matrix.apple_signing }}
       asset-prefix: "causer"
       upload-artifacts: false
       release-id: ${{ needs.create-release.outputs.release-id }}
