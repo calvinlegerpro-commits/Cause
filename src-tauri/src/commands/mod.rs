@@ -1,5 +1,4 @@
 pub mod audio;
-pub mod gemini;
 pub mod history;
 pub mod models;
 pub mod transcription;
@@ -17,23 +16,14 @@ pub fn cancel_operation(app: AppHandle) {
 
 #[tauri::command]
 #[specta::specta]
-pub fn toggle_pause(app: AppHandle) -> bool {
-    let audio_manager =
-        app.state::<std::sync::Arc<crate::managers::audio::AudioRecordingManager>>();
-    if !audio_manager.is_recording() {
-        return false;
-    }
-    let paused = audio_manager.toggle_pause();
-    crate::overlay::emit_recording_paused(&app, paused);
-    paused
+pub fn is_portable() -> bool {
+    crate::portable::is_portable()
 }
 
 #[tauri::command]
 #[specta::specta]
 pub fn get_app_dir_path(app: AppHandle) -> Result<String, String> {
-    let app_data_dir = app
-        .path()
-        .app_data_dir()
+    let app_data_dir = crate::portable::app_data_dir(&app)
         .map_err(|e| format!("Failed to get app data directory: {}", e))?;
 
     Ok(app_data_dir.to_string_lossy().to_string())
@@ -54,9 +44,7 @@ pub fn get_default_settings() -> Result<AppSettings, String> {
 #[tauri::command]
 #[specta::specta]
 pub fn get_log_dir_path(app: AppHandle) -> Result<String, String> {
-    let log_dir = app
-        .path()
-        .app_log_dir()
+    let log_dir = crate::portable::app_log_dir(&app)
         .map_err(|e| format!("Failed to get log directory: {}", e))?;
 
     Ok(log_dir.to_string_lossy().to_string())
@@ -83,9 +71,7 @@ pub fn set_log_level(app: AppHandle, level: LogLevel) -> Result<(), String> {
 #[specta::specta]
 #[tauri::command]
 pub fn open_recordings_folder(app: AppHandle) -> Result<(), String> {
-    let app_data_dir = app
-        .path()
-        .app_data_dir()
+    let app_data_dir = crate::portable::app_data_dir(&app)
         .map_err(|e| format!("Failed to get app data directory: {}", e))?;
 
     let recordings_dir = app_data_dir.join("recordings");
@@ -101,9 +87,7 @@ pub fn open_recordings_folder(app: AppHandle) -> Result<(), String> {
 #[specta::specta]
 #[tauri::command]
 pub fn open_log_dir(app: AppHandle) -> Result<(), String> {
-    let log_dir = app
-        .path()
-        .app_log_dir()
+    let log_dir = crate::portable::app_log_dir(&app)
         .map_err(|e| format!("Failed to get log directory: {}", e))?;
 
     let path = log_dir.to_string_lossy().as_ref().to_string();
@@ -117,9 +101,7 @@ pub fn open_log_dir(app: AppHandle) -> Result<(), String> {
 #[specta::specta]
 #[tauri::command]
 pub fn open_app_data_dir(app: AppHandle) -> Result<(), String> {
-    let app_data_dir = app
-        .path()
-        .app_data_dir()
+    let app_data_dir = crate::portable::app_data_dir(&app)
         .map_err(|e| format!("Failed to get app data directory: {}", e))?;
 
     let path = app_data_dir.to_string_lossy().as_ref().to_string();
@@ -127,30 +109,6 @@ pub fn open_app_data_dir(app: AppHandle) -> Result<(), String> {
         .open_path(path, None::<String>)
         .map_err(|e| format!("Failed to open app data directory: {}", e))?;
 
-    Ok(())
-}
-
-#[specta::specta]
-#[tauri::command]
-pub fn export_settings(app: AppHandle, path: String) -> Result<(), String> {
-    let settings = get_settings(&app);
-    let json = serde_json::to_string_pretty(&settings)
-        .map_err(|e| format!("Failed to serialize settings: {}", e))?;
-    std::fs::write(&path, json)
-        .map_err(|e| format!("Failed to write file: {}", e))?;
-    log::info!("Settings exported to {}", path);
-    Ok(())
-}
-
-#[specta::specta]
-#[tauri::command]
-pub fn import_settings(app: AppHandle, path: String) -> Result<(), String> {
-    let json = std::fs::read_to_string(&path)
-        .map_err(|e| format!("Failed to read file: {}", e))?;
-    let settings: AppSettings = serde_json::from_str(&json)
-        .map_err(|e| format!("Invalid settings file: {}", e))?;
-    write_settings(&app, settings);
-    log::info!("Settings imported from {}", path);
     Ok(())
 }
 

@@ -1,24 +1,24 @@
 import { useEffect, useState, useRef } from "react";
-import { Toaster } from "sonner";
+import { toast, Toaster } from "sonner";
 import { useTranslation } from "react-i18next";
+import { listen } from "@tauri-apps/api/event";
 import { platform } from "@tauri-apps/plugin-os";
-import { getIdentifier } from "@tauri-apps/api/app";
 import {
   checkAccessibilityPermission,
   checkMicrophonePermission,
 } from "tauri-plugin-macos-permissions-api";
-import { listen } from "@tauri-apps/api/event";
+import { ModelStateEvent, RecordingErrorEvent } from "./lib/types/events";
 import "./App.css";
 import AccessibilityPermissions from "./components/AccessibilityPermissions";
 import Footer from "./components/footer";
-import Onboarding, { AccessibilityOnboarding, WelcomeScreen } from "./components/onboarding";
+import Onboarding, { AccessibilityOnboarding } from "./components/onboarding";
 import { Sidebar, SidebarSection, SECTIONS_CONFIG } from "./components/Sidebar";
 import { useSettings } from "./hooks/useSettings";
 import { useSettingsStore } from "./stores/settingsStore";
 import { commands } from "@/bindings";
 import { getLanguageDirection, initializeRTL } from "@/lib/utils/rtl";
 
-type OnboardingStep = "welcome" | "accessibility" | "model" | "done";
+type OnboardingStep = "accessibility" | "model" | "done";
 
 const renderSettingsContent = (section: SidebarSection) => {
   const ActiveComponent =
@@ -27,7 +27,7 @@ const renderSettingsContent = (section: SidebarSection) => {
 };
 
 function App() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [onboardingStep, setOnboardingStep] = useState<OnboardingStep | null>(
     null,
   );
@@ -95,61 +95,117 @@ function App() {
     };
   }, [settings?.debug_mode, updateSetting]);
 
-  // Listen for backend navigation events (e.g., "Show History" shortcut)
+  // Listen for recording errors from the backend and show a toast
   useEffect(() => {
-    const unlisten = listen<string>("navigate-to-section", (event) => {
-      const section = event.payload as SidebarSection;
-      if (section in SECTIONS_CONFIG) {
-        setCurrentSection(section);
+    const unlisten = listen<RecordingErrorEvent>("recording-error", (event) => {
+      const { error_type, detail } = event.payload;
+
+      if (error_type === "microphone_permission_denied") {
+        const currentPlatform = platform();
+        const platformKey = `errors.micPermissionDenied.${currentPlatform}`;
+        const description = t(platformKey, {
+          defaultValue: t("errors.micPermissionDenied.generic"),
+        });
+        toast.error(t("errors.micPermissionDeniedTitle"), { description });
+      } else if (error_type === "no_input_device") {
+        toast.error(t("errors.noInputDeviceTitle"), {
+          description: t("errors.noInputDevice"),
+        });
+      } else {
+        toast.error(
+          t("errors.recordingFailed", { error: detail ?? "Unknown error" }),
+        );
       }
     });
     return () => {
       unlisten.then((fn) => fn());
     };
-  }, []);
+  }, [t]);
+
+  // Listen for model loading failures and show a toast
+  useEffect(() => {
+    const unlisten = listen<ModelStateEvent>("model-state-changed", (event) => {
+      if (event.payload.event_type === "loading_failed") {
+        toast.error(
+          t("errors.modelLoadFailed", {
+            model:
+              event.payload.model_name || t("errors.modelLoadFailedUnknown"),
+          }),
+          {
+            description: event.payload.error,
+          },
+        );
+      }
+    });
+    return () => {
+      unlisten.then((fn) => fn());
+    };
+  }, [t]);
+
+  const revealMainWindowForPermissions = async () => {
+    try {
+      await commands.showMainWindowCommand();
+    } catch (e) {
+      console.warn("Failed to show main window for permission onboarding:", e);
+    }
+  };
 
   const checkOnboardingStatus = async () => {
     try {
-      const appIdentifier = await getIdentifier();
-      const isDevFlavor = appIdentifier.endsWith(".dev");
-
       // Check if they have any models available
       const result = await commands.hasAnyModelsAvailable();
       const hasModels = result.status === "ok" && result.data;
+      const currentPlatform = platform();
 
       if (hasModels) {
-        // Returning user - but check if they need to grant permissions on macOS
+        // Returning user - check if they need to grant permissions first
         setIsReturningUser(true);
-        if (platform() === "macos" && !isDevFlavor) {
+
+        if (currentPlatform === "macos") {
           try {
             const [hasAccessibility, hasMicrophone] = await Promise.all([
               checkAccessibilityPermission(),
               checkMicrophonePermission(),
             ]);
             if (!hasAccessibility || !hasMicrophone) {
-              // Missing permissions - show accessibility onboarding
+              await revealMainWindowForPermissions();
               setOnboardingStep("accessibility");
               return;
             }
           } catch (e) {
-            console.warn("Failed to check permissions:", e);
+            console.warn("Failed to check macOS permissions:", e);
             // If we can't check, proceed to main app and let them fix it there
           }
         }
+
+        if (currentPlatform === "windows") {
+          try {
+            const microphoneStatus =
+              await commands.getWindowsMicrophonePermissionStatus();
+            if (
+              microphoneStatus.supported &&
+              microphoneStatus.overall_access === "denied"
+            ) {
+              await revealMainWindowForPermissions();
+              setOnboardingStep("accessibility");
+              return;
+            }
+          } catch (e) {
+            console.warn("Failed to check Windows microphone permissions:", e);
+            // If we can't check, proceed to main app and let them fix it there
+          }
+        }
+
         setOnboardingStep("done");
       } else {
-        // New user - show welcome screen first, then permissions/model
+        // New user - start full onboarding
         setIsReturningUser(false);
-        setOnboardingStep(isDevFlavor ? "model" : "welcome");
+        setOnboardingStep("accessibility");
       }
     } catch (error) {
       console.error("Failed to check onboarding status:", error);
-      setOnboardingStep("welcome");
+      setOnboardingStep("accessibility");
     }
-  };
-
-  const handleWelcomeStart = () => {
-    setOnboardingStep("accessibility");
   };
 
   const handleAccessibilityComplete = () => {
@@ -166,10 +222,6 @@ function App() {
   // Still checking onboarding status
   if (onboardingStep === null) {
     return null;
-  }
-
-  if (onboardingStep === "welcome") {
-    return <WelcomeScreen onStart={handleWelcomeStart} />;
   }
 
   if (onboardingStep === "accessibility") {

@@ -1,13 +1,13 @@
 {
   "tray": {
+    "openApp": "Ouvrir Causer",
     "settings": "Paramètres avancés...",
     "checkUpdates": "Rechercher des mises à jour...",
     "copyLastTranscript": "Copier la dernière transcription",
     "unloadModel": "Décharger le modèle",
-    "quit": "Quitter",
-    "cancel": "Annuler",
     "model": "Modèle",
-    "openApp": "Ouvrir Causer"
+    "quit": "Quitter",
+    "cancel": "Annuler"
   },
   "sidebar": {
     "general": "Général",
@@ -19,11 +19,6 @@
     "about": "À propos"
   },
   "onboarding": {
-    "welcome": {
-      "title": "Bienvenue dans Causer",
-      "subtitle": "Votre outil de dictée vocale, simple et rapide.",
-      "cta": "Commencer →"
-    },
     "subtitle": "Pour commencer, choisissez un modèle de transcription",
     "recommended": "Recommandé",
     "download": "Télécharger",
@@ -45,11 +40,11 @@
       },
       "turbo": {
         "name": "Whisper Turbo",
-        "description": "Recommandé — rapide, fonctionne en français et anglais"
+        "description": "Équilibre entre précision et vitesse."
       },
       "large": {
         "name": "Whisper Large",
-        "description": "Précis — plus lent, idéal pour un usage professionnel"
+        "description": "Bonne précision, mais lent."
       },
       "parakeet-tdt-0.6b-v2": {
         "name": "Parakeet V2",
@@ -57,7 +52,7 @@
       },
       "parakeet-tdt-0.6b-v3": {
         "name": "Parakeet V3",
-        "description": "Sans carte graphique — compatible avec tous les ordinateurs"
+        "description": "Rapide et précis"
       },
       "moonshine-base": {
         "name": "Moonshine Base",
@@ -83,9 +78,21 @@
         "name": "SenseVoice",
         "description": "Très rapide. Chinois, anglais, japonais, coréen, cantonais."
       },
-      "gemini-api": {
-        "name": "Gemini API",
-        "description": "Transcription via le cloud Google Gemini. Nécessite une clé API et une connexion internet."
+      "gigaam-v3-e2e-ctc": {
+        "name": "GigaAM v3",
+        "description": "Reconnaissance vocale en russe. Rapide et précis."
+      },
+      "canary-180m-flash": {
+        "name": "Canary 180M Flash",
+        "description": "Très rapide. Anglais, allemand, espagnol, français. Supporte la traduction."
+      },
+      "canary-1b-v2": {
+        "name": "Canary 1B v2",
+        "description": "Multilingue précis. 25 langues européennes. Supporte la traduction."
+      },
+      "cohere-int8": {
+        "name": "Cohere",
+        "description": "Un modèle volumineux, plus lent, mais très précis et multilingue."
       }
     },
     "errors": {
@@ -94,7 +101,7 @@
     },
     "permissions": {
       "title": "Autorisations requises",
-      "description": "Causer a besoin de quelques autorisations pour fonctionner correctement.",
+      "description": "Handy a besoin de quelques autorisations pour fonctionner correctement.",
       "microphone": {
         "title": "Accès au microphone",
         "description": "Nécessaire pour entendre votre voix pour la transcription."
@@ -107,7 +114,6 @@
       "granted": "Accordé",
       "waiting": "En attente...",
       "allGranted": "Tout est prêt !",
-      "skip": "Passer pour l'instant",
       "errors": {
         "checkFailed": "Échec de la vérification des autorisations. Veuillez réessayer.",
         "requestFailed": "Échec de la demande d'autorisation. Veuillez réessayer."
@@ -119,6 +125,8 @@
     "active": "Actif",
     "switching": "Changement...",
     "noModelsAvailable": "Aucun modèle disponible",
+    "verifying": "Vérification de {{modelName}}...",
+    "verifyingGeneric": "Vérification...",
     "extracting": "Extraction de {{modelName}}...",
     "extractingMultiple": "Extraction de {{count}} modèles...",
     "extractingGeneric": "Extraction...",
@@ -148,25 +156,9 @@
       "title": "Paramètres de {{model}}",
       "noSettingsNeeded": "Ce modèle fonctionne automatiquement sans configuration nécessaire."
     },
-    "longAudioModel": {
-      "title": "Modèle pour les longs enregistrements",
-      "description": "Basculer automatiquement vers un modèle différent lorsque la durée d'enregistrement dépasse le seuil.",
-      "modelLabel": "Modèle pour les longs enregistrements",
-      "modelDescription": "Sélectionnez un modèle à utiliser pour les enregistrements plus longs que le seuil.",
-      "thresholdLabel": "Seuil de durée (secondes)",
-      "thresholdDescription": "Basculer vers le modèle de long enregistrement lorsque l'enregistrement dépasse cette durée.",
-      "disabled": "Désactivé",
-      "seconds": "{{value}}s"
-    },
     "models": {
       "title": "Modèles de Transcription",
       "description": "Sélectionnez un modèle de transcription ou téléchargez des modèles supplémentaires. Différents modèles offrent différents niveaux de précision et de vitesse.",
-      "tabs": {
-        "transcription": "Transcription",
-        "processing": "Traitement"
-      },
-      "yourModels": "Activés",
-      "availableModels": "Disponibles",
       "downloaded": "Téléchargés",
       "available": "Disponibles au Téléchargement",
       "deleteConfirm": "Êtes-vous sûr de vouloir supprimer {{modelName}} ? Vous devrez le télécharger à nouveau pour l'utiliser.",
@@ -179,32 +171,18 @@
         "allLanguages": "Toutes les langues"
       },
       "noModelsMatch": "Aucun modèle ne correspond à ce filtre.",
-      "processingModels": {
-        "title": "Modèles de traitement",
-        "description": "Enregistrez des modèles LLM pour les utiliser dans les actions de post-traitement.",
-        "noModels": "Aucun modèle de traitement enregistré. Ajoutez-en un pour l'utiliser dans vos actions.",
-        "addModel": "Ajouter un modèle de traitement",
-        "provider": "Fournisseur",
-        "apiKey": "Clé API",
-        "apiKeyPlaceholder": "Entrez la clé API",
-        "model": "Modèle",
-        "modelPlaceholder": "Sélectionner ou saisir un modèle",
-        "save": "Enregistrer",
-        "cancel": "Annuler",
-        "fetchModels": "Récupérer les modèles",
-        "alreadySaved": "Ce modèle est déjà enregistré."
-      }
+      "yourModels": "Modèles téléchargés",
+      "availableModels": "Disponibles au téléchargement"
     },
     "general": {
       "title": "Général",
       "shortcut": {
-        "title": "Raccourcis Causer",
+        "title": "Raccourcis Handy",
         "description": "Configurer les raccourcis clavier pour déclencher l'enregistrement de la reconnaissance vocale",
         "loading": "Chargement des raccourcis...",
         "none": "Aucun raccourci configuré",
         "notFound": "Raccourci non trouvé",
         "pressKeys": "Appuyez sur les touches...",
-        "clickToSet": "Cliquer pour definir",
         "bindings": {
           "transcribe": {
             "name": "Raccourci de Transcription",
@@ -217,14 +195,6 @@
           "transcribe_with_post_process": {
             "name": "Raccourci de post-traitement",
             "description": "Facultatif : Un raccourci dédié qui applique toujours le post-traitement IA à votre transcription."
-          },
-          "show_history": {
-            "name": "Afficher l'historique",
-            "description": "Ouvre la fenêtre de l'application et navigue vers l'onglet Historique."
-          },
-          "copy_latest_history": {
-            "name": "Copier le dernier historique",
-            "description": "Copie la dernière transcription dans le presse-papiers."
           }
         },
         "errors": {
@@ -276,13 +246,30 @@
         "output": "Sortie",
         "transcription": "Transcription",
         "history": "Historique",
-        "experimental": "Expérimental",
-        "cloudModels": "Modèles cloud",
-        "recording": "Enregistrement"
+        "experimental": "Expérimental"
       },
       "experimentalToggle": {
         "label": "Fonctionnalités Expérimentales",
         "description": "Activer les fonctionnalités expérimentales encore en développement."
+      },
+      "lazyStreamClose": {
+        "label": "Garder le micro ouvert entre les transcriptions",
+        "description": "Maintient le flux du microphone ouvert pendant 30 secondes après l'arrêt de l'enregistrement, réduisant la latence pour les transcriptions consécutives. Peut dégrader la qualité audio Bluetooth."
+      },
+      "acceleration": {
+        "whisper": {
+          "title": "Accélération Whisper",
+          "description": "Accélération matérielle pour les modèles Whisper. Auto utilise le GPU si disponible (Metal sur macOS, Vulkan sur Windows/Linux)."
+        },
+        "ort": {
+          "title": "Accélération ONNX",
+          "description": "Accélération matérielle pour les modèles ONNX (Parakeet, Canary, Moonshine, etc.). DirectML sur Windows est expérimental. Les modèles peuvent échouer à transcrire."
+        },
+        "gpuDevice": {
+          "title": "Appareil GPU",
+          "description": "Sélectionnez le GPU à utiliser pour l'inférence Whisper. Auto choisit le GPU dédié.",
+          "auto": "Auto"
+        }
       },
       "startHidden": {
         "label": "Démarrer masqué",
@@ -290,11 +277,11 @@
       },
       "autostart": {
         "label": "Lancer au démarrage",
-        "description": "Démarrer automatiquement Causer lorsque vous vous connectez à votre ordinateur."
+        "description": "Démarrer automatiquement Handy lorsque vous vous connectez à votre ordinateur."
       },
       "showTrayIcon": {
         "label": "Afficher l'icône de la barre",
-        "description": "Afficher l'icône de Causer dans la barre système."
+        "description": "Afficher l'icône de Handy dans la barre système."
       },
       "overlay": {
         "title": "Position de la fenêtre d'enregistrement",
@@ -360,7 +347,7 @@
           "min10": "Après 10 minutes",
           "min15": "Après 15 minutes",
           "hour1": "Après 1 heure",
-          "sec5": "Après 5 secondes (Débogage)"
+          "sec15": "Après 15 secondes (Débogage)"
         }
       },
       "customWords": {
@@ -430,29 +417,6 @@
         "cancel": "Annuler",
         "selectToEdit": "Sélectionnez un prompt ci-dessus pour voir et modifier ses détails.",
         "createFirst": "Cliquez sur 'Créer un nouveau prompt' ci-dessus pour créer votre premier prompt de post-traitement."
-      },
-      "actions": {
-        "title": "Actions",
-        "description": "Associez les touches Ctrl+chiffre (1-9) à des prompts personnalisés. Appuyez sur un raccourci pendant l'enregistrement pour appliquer l'action après la transcription.",
-        "noActions": "Aucune action configurée.",
-        "createFirst": "Créez votre première action pour traiter les transcriptions avec votre fournisseur configuré.",
-        "addAction": "Ajouter une action",
-        "editAction": "Modifier l'action",
-        "key": "Touche",
-        "keyLabel": "Touche (1-9)",
-        "name": "Nom",
-        "namePlaceholder": "ex. Mode e-mail",
-        "prompt": "Prompt",
-        "promptPlaceholder": "ex. Formatez ceci comme un e-mail professionnel avec salutation et signature. Ajoutez des sauts de ligne entre les paragraphes.",
-        "promptTip": "Astuce : Utilisez <code>${output}</code> pour insérer le texte transcrit dans votre prompt.",
-        "model": "Modèle (optionnel)",
-        "modelPlaceholder": "Sélectionner un modèle",
-        "modelTip": "Sélectionnez un modèle spécifique pour cette action, ou utilisez celui par défaut de la section API.",
-        "defaultModel": "Par défaut",
-        "save": "Enregistrer",
-        "cancel": "Annuler",
-        "delete": "Supprimer",
-        "maxActionsReached": "Maximum de 9 actions atteint."
       }
     },
     "history": {
@@ -465,24 +429,10 @@
       "unsave": "Retirer des favoris",
       "delete": "Supprimer l'entrée",
       "deleteError": "Échec de la suppression de l'entrée. Veuillez réessayer.",
-      "reprocess": "Retraiter avec un autre modèle",
-      "reprocessing": "Retraitement...",
-      "selectModel": "Sélectionner un modèle",
-      "originalTranscript": "Original",
-      "postProcessed": "Post-traitement",
-      "action": "Action {{key}}"
-    },
-    "gemini": {
-      "title": "Gemini API",
-      "description": "Utiliser l'API Gemini de Google pour la transcription dans le cloud. Nécessite une clé API.",
-      "apiKey": "Clé API",
-      "apiKeyPlaceholder": "Entrez votre clé API Gemini",
-      "model": "Modèle",
-      "modelDescription": "Sélectionnez le modèle Gemini à utiliser pour la transcription",
-      "apiKeyRequired": "Clé API requise",
-      "apiKeyRequiredDescription": "Entrez votre clé API Google Gemini pour utiliser la transcription dans le cloud.",
-      "save": "Enregistrer",
-      "cancel": "Annuler"
+      "retranscribe": "Re-transcrire",
+      "retranscribeError": "Impossible de re-transcrire. Veuillez réessayer.",
+      "transcribing": "Transcription en cours...",
+      "transcriptionFailed": "La transcription a échoué. Vous pouvez re-transcrire en utilisant l'icône de réessai."
     },
     "debug": {
       "title": "Débogage",
@@ -496,7 +446,7 @@
       },
       "updateChecks": {
         "label": "Vérifier les mises à jour",
-        "description": "Vérifier automatiquement les nouvelles versions de Causer"
+        "description": "Vérifier automatiquement les nouvelles versions de Handy"
       },
       "soundTheme": {
         "label": "Thème sonore",
@@ -538,13 +488,13 @@
         "description": "Couper le son du système pendant l'enregistrement"
       },
       "appendTrailingSpace": {
-        "label": "Ajouter un espace final",
-        "description": "Ajouter un espace après la transcription collée"
+        "label": "Ajouter une espace final",
+        "description": "Ajouter une espace après la transcription collée"
       },
       "keyboardImplementation": {
-        "title": "Implémentation du clavier",
-        "description": "Choisissez le moteur de raccourcis clavier.",
-        "bindingsReset": "Les raccourcis clavier étaient incompatibles et ont été réinitialisés aux valeurs par défaut"
+        "title": "Gestion du clavier",
+        "description": "Choisissez le système des raccourcis clavier.",
+        "bindingsReset": "Raccourcis clavier étaient incompatibles et ont été réinitialisés aux valeurs par défaut"
       },
       "paths": {
         "appData": "Données de l'application :",
@@ -554,25 +504,21 @@
       "pasteDelay": {
         "title": "Délai de collage",
         "description": "Délai avant l'envoi de la touche de collage (en millisecondes). Augmentez si le mauvais texte est collé."
+      },
+      "recordingBuffer": {
+        "title": "Tampon d'enregistrement supplémentaire",
+        "description": "Temps supplémentaire (en millisecondes) pour continuer l'enregistrement après avoir relâché la touche, pour capturer l'audio restant. 0 = pas de tampon supplémentaire."
       }
     },
     "about": {
       "title": "À propos",
       "version": {
         "title": "Version",
-        "description": "Version actuelle de Causer"
+        "description": "Version actuelle de Handy"
       },
       "appDataDirectory": {
         "title": "Emplacement des données de l'application",
-        "description": "Emplacement où Causer stocke ses données"
-      },
-      "exportImport": {
-        "title": "Exporter / Importer les paramètres",
-        "description": "Transférer votre configuration vers un autre ordinateur",
-        "export": "Exporter",
-        "import": "Importer",
-        "exportSuccess": "Paramètres exportés avec succès",
-        "importSuccess": "Paramètres importés avec succès"
+        "description": "Emplacement où Handy stocke ses données"
       },
       "sourceCode": {
         "title": "Code source",
@@ -581,7 +527,7 @@
       },
       "supportDevelopment": {
         "title": "Soutenir le développement",
-        "description": "Aidez-nous à continuer à construire Causer",
+        "description": "Aidez-nous à continuer à construire Handy",
         "button": "Faire un don"
       },
       "acknowledgments": {
@@ -589,7 +535,7 @@
         "whisper": {
           "title": "Whisper.cpp",
           "description": "Inférence haute performance du modèle de reconnaissance vocale automatique Whisper d'OpenAI",
-          "details": "Causer utilise Whisper.cpp pour un traitement rapide et local de la parole en texte. Merci au travail incroyable de Georgi Gerganov et des contributeurs."
+          "details": "Handy utilise Whisper.cpp pour un traitement rapide et local de la parole en texte. Merci au travail incroyable de Georgi Gerganov et des contributeurs."
         }
       }
     }
@@ -606,7 +552,10 @@
     "downloading": "Téléchargement... {{progress}}%",
     "installing": "Installation...",
     "preparing": "Préparation...",
-    "checkForUpdates": "Rechercher des mises à jour"
+    "checkForUpdates": "Rechercher des mises à jour",
+    "portableUpdateTitle": "Manual update required",
+    "portableUpdateMessage": "Portable installs cannot be updated automatically. To update: download the latest NSIS installer from GitHub Releases, install it to the same folder, then copy your Data/ folder (settings, models, recordings) from the old version to the new one.",
+    "portableUpdateButton": "Open GitHub Releases"
   },
   "common": {
     "loading": "Chargement...",
@@ -632,20 +581,31 @@
   },
   "accessibility": {
     "permissionsRequired": "Autorisations d'accessibilité requises",
-    "permissionsDescription": "Causer a besoin des autorisations d'accessibilité pour taper le texte transcrit.",
+    "permissionsDescription": "Handy a besoin des autorisations d'accessibilité pour taper le texte transcrit.",
     "openSettings": "Ouvrir les Préférences Système",
     "dismiss": "Ignorer"
   },
   "errors": {
-    "loadDirectory": "Erreur lors du chargement du répertoire : {{error}}"
+    "loadDirectory": "Erreur lors du chargement du répertoire : {{error}}",
+    "micPermissionDeniedTitle": "Accès au microphone refusé",
+    "micPermissionDenied": {
+      "generic": "L'accès au microphone a été refusé par le système d'exploitation. Veuillez accorder l'autorisation du microphone dans les paramètres système.",
+      "windows": "Activez l'accès au microphone dans Paramètres → Confidentialité et sécurité → Microphone (y compris l'accès des applications de bureau).",
+      "macos": "Accordez l'accès au microphone dans Réglages du système → Confidentialité et sécurité → Microphone.",
+      "linux": "Accordez l'accès au microphone dans les paramètres de son ou de confidentialité de votre système."
+    },
+    "noInputDeviceTitle": "Aucun microphone trouvé",
+    "noInputDevice": "Aucun périphérique d'entrée audio n'a été détecté. Veuillez connecter un microphone ou un casque et réessayer.",
+    "recordingFailed": "Échec du démarrage de l'enregistrement : {{error}}",
+    "modelLoadFailed": "Échec du chargement du modèle : {{model}}",
+    "modelLoadFailedUnknown": "modèle inconnu"
   },
   "appLanguage": {
     "title": "Langue de l'application",
-    "description": "Changer la langue de l'interface de Causer"
+    "description": "Changer la langue de l'interface de Handy"
   },
   "overlay": {
     "transcribing": "Transcription...",
-    "processing": "Traitement...",
-    "cancelConfirm": "Esc pour annuler"
+    "processing": "Traitement..."
   }
 }

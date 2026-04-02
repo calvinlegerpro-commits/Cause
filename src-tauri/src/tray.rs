@@ -156,7 +156,7 @@ pub fn update_tray_menu(app: &AppHandle, state: &TrayIconState, locale: Option<&
         let items: Vec<CheckMenuItem<tauri::Wry>> = downloaded_models
             .iter()
             .map(|m| {
-                let id = format!("select_model_{}", m.id);
+                let id = format!("model_select:{}", m.id);
                 let is_selected = m.id == current_model;
                 CheckMenuItem::with_id(app, id, &m.name, true, is_selected, None::<&str>)
                     .expect("failed to create model menu item")
@@ -236,6 +236,7 @@ pub fn update_tray_menu(app: &AppHandle, state: &TrayIconState, locale: Option<&
     let tray = app.state::<TrayIcon>();
     let _ = tray.set_menu(Some(menu));
     let _ = tray.set_icon_as_template(true);
+    let _ = tray.set_tooltip(Some(version_label));
 }
 
 fn last_transcript_text(entry: &HistoryEntry) -> &str {
@@ -256,10 +257,10 @@ pub fn set_tray_visibility(app: &AppHandle, visible: bool) {
 
 pub fn copy_last_transcript(app: &AppHandle) {
     let history_manager = app.state::<Arc<HistoryManager>>();
-    let entry = match history_manager.get_latest_entry() {
+    let entry = match history_manager.get_latest_completed_entry() {
         Ok(Some(entry)) => entry,
         Ok(None) => {
-            warn!("No transcription history entries available for tray copy.");
+            warn!("No completed transcription history entries available for tray copy.");
             return;
         }
         Err(err) => {

@@ -50,3 +50,6 @@ security-audit*.md
 
 # Brainstorm session files
 .superpowers/
+
+# Nix build output
+result
