@@ -64,7 +64,7 @@ jobs:
             args: "--bundles nsis,msi"
             target: "x86_64-pc-windows-msvc"
             apple_signing: false
-            sign_binaries: false
+            sign_binaries: true
 
     uses: ./.github/workflows/build.yml
     with:
