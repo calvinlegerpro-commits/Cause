@@ -7,7 +7,6 @@
     "model": "模型",
     "quit": "退出",
     "cancel": "取消",
-    "model": "模型",
     "openApp": "打开 Causer"
   },
   "sidebar": {
@@ -115,7 +114,6 @@
       "granted": "已授予",
       "waiting": "等待中...",
       "allGranted": "全部完成！",
-      "skip": "暂时跳过",
       "errors": {
         "checkFailed": "检查权限失败。请重试。",
         "requestFailed": "请求权限失败。请重试。"
@@ -248,8 +246,7 @@
         "output": "输出",
         "transcription": "转录",
         "history": "历史",
-        "experimental": "实验性",
-        "recording": "录音"
+        "experimental": "实验性"
       },
       "experimentalToggle": {
         "label": "实验性功能",
