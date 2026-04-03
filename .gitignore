@@ -44,6 +44,8 @@ secrets.env
 # Security audit reports — NEVER commit (roadmap for attackers)
 SECURITY-AUDIT*.md
 security-audit*.md
+Claude.md
+CLAUDE.md
 
 # Local release helpers / secrets
 .claude/skills/release-macos/
