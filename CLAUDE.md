@@ -2,6 +2,32 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## ⚠️ MERGE UPSTREAM (cjpais/Handy) — RÈGLES OBLIGATOIRES
+
+> **IMPÉRATIF** : Lors de tout merge depuis `cjpais/Handy`, prendre les fonctionnalités et les mécaniques qui les font fonctionner, mais **NE JAMAIS reprendre** ce qui est propre à leur projet.
+
+### Ce qu'on prend ✅
+- Nouvelles fonctionnalités (modèles, UI, backend audio, etc.)
+- Corrections de bugs
+- Dépendances et mises à jour de versions
+
+### Ce qu'on ne reprend JAMAIS ❌
+- **Clés de signature** : `pubkey` dans `tauri.conf.json` → garder la clé Causer (`~/.tauri/causer.key`)
+- **Endpoint updater** : garder `https://github.com/calvinlegerpro-commits/Cause/releases/...`
+- **signCommand Windows** : ne pas réintroduire `bundle.windows.signCommand` (Azure non configuré)
+- **Nom de l'app** : toujours `Causer`, jamais `Handy`
+- **Identifiants du bundle** : `com.causer.app`, `causer-app`, `causer_app_lib`
+- **Credentials tiers** : clés Apple, Azure, tokens, secrets de leur CI
+
+### Procédure merge
+1. Merger upstream dans une branche dédiée
+2. Résoudre les conflits en vérifiant chaque fichier contre cette liste
+3. Corriger les tests Rust cassés si besoin (voir dette technique en mémoire)
+4. Tester en dev (`bun run tauri dev`) avant de releaser
+5. Suivre la checklist release ci-dessous
+
+---
+
 ## ⚠️ RELEASE — CHECKLIST OBLIGATOIRE (LIRE EN PRIORITÉ ABSOLUE)
 
 > **IMPÉRATIF** : Avant toute action liée à une release (tag, push, CI, correction CI), lire et appliquer cette section intégralement. Ces pièges ont coûté plusieurs heures de débogage. Ne pas les répéter.
