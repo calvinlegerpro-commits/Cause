@@ -2,6 +2,60 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## ⚠️ RELEASE — CHECKLIST OBLIGATOIRE (LIRE EN PRIORITÉ ABSOLUE)
+
+> **IMPÉRATIF** : Avant toute action liée à une release (tag, push, CI, correction CI), lire et appliquer cette section intégralement. Ces pièges ont coûté plusieurs heures de débogage. Ne pas les répéter.
+
+### Étapes release
+
+1. Bumper la version dans `package.json`, `src-tauri/Cargo.toml`, `src-tauri/tauri.conf.json`
+2. Lancer `bun install` et committer `bun.lock` si modifié
+3. Committer les changements de version
+4. `git tag v0.x.0 && git push origin main && git push origin v0.x.0`
+5. Attendre ~30 min que GitHub Actions compile (macOS ~10 min, Windows ~28 min)
+6. Vérifier que la draft release contient TOUS les assets avant de publier
+7. Publier : `gh release edit v0.x.0 --repo calvinlegerpro-commits/Cause --draft=false`
+
+### Pièges connus — NE PAS IGNORER
+
+**Piège 1 — Signature Apple manquante → build macOS échoue**
+- Symptôme : step "import Apple Developer Certificate" échoue
+- Fix : dans `main-build.yml`, vérifier que `sign-binaries: false` et `apple_signing: false` sont présents
+- Dans `release.yml`, `apple_signing: false` est déjà dans chaque entrée de matrice
+
+**Piège 2 — bun.lock désynchronisé → code quality échoue**
+- Symptôme : `error: lockfile had changes, but lockfile is frozen`
+- Fix : lancer `bun install` et committer `bun.lock` avant de pusher
+
+**Piège 3 — Tag déjà existant → release ne se relance pas**
+- Symptôme : `! [rejected] v0.x.0 -> v0.x.0 (already exists)`
+- Fix : `git tag -d v0.x.0 && git tag v0.x.0 && git push origin v0.x.0 --force`
+- ⚠️ Chaque force-push crée une NOUVELLE draft release — voir piège 7
+
+**Piège 4 — Traductions zh/zh-TW avec clés en trop → code quality échoue**
+- Symptôme : `Extra N keys (not in reference)` dans le check i18n
+- Fix : supprimer les clés absentes de `en/translation.json` dans `zh/` et `zh-TW/`
+
+**Piège 5 — signCommand Windows (trusted-signing-cli) hardcodé → build Windows échoue**
+- Symptôme : `failed to bundle project 'failed to run trusted-signing-cli'`
+- Cause : `src-tauri/tauri.conf.json` contient `bundle.windows.signCommand` pointant vers Azure
+- Fix : supprimer la clé `signCommand` de la section `bundle.windows` dans `tauri.conf.json`
+- ✅ Déjà appliqué sur ce repo — ne pas la réintroduire lors d'un merge upstream
+
+**Piège 6 — sign-binaries: false vide TAURI_SIGNING_PRIVATE_KEY → build échoue**
+- Symptôme : `failed to decode secret key: incorrect updater private key password`
+- Cause : mettre `sign-binaries: false` force `TAURI_SIGNING_PRIVATE_KEY: ''`, Tauri échoue à signer
+- Fix : garder `sign-binaries: true` pour TOUTES les plateformes dans `release.yml`
+- Le contrôle du signing Azure Windows se fait via `tauri.conf.json` (piège 5), pas via ce flag
+
+**Piège 7 — Multiples draft releases orphelines après force-push**
+- Symptôme : `gh release list` montre plusieurs drafts v0.x.0 avec assets partiels
+- Cause : chaque force-push du tag crée une nouvelle draft release
+- Fix : `gh api repos/calvinlegerpro-commits/Cause/releases --jq '.[] | select(.tag_name == "v0.x.0") | {id, assets: [.assets[].name]}'` pour identifier la draft complète, la publier, supprimer les autres
+- À éviter : utiliser `gh run rerun --failed <run-id>` plutôt que force-pusher le tag quand aucun changement de code n'est nécessaire
+
+---
+
 ## Development Commands
 
 **Prerequisites:** [Rust](https://rustup.rs/) (latest stable), [Bun](https://bun.sh/)
