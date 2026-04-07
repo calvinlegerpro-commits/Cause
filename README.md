@@ -3,7 +3,7 @@
 **Causer** est une application de dictée vocale pour Mac et Windows.  
 Appuie sur un raccourci clavier, parle, et ton texte apparaît directement là où tu écris.
 
-> Fork personnel de [cjpais/Handy](https://github.com/cjpais/Handy) par Calvin Leger.
+> Fork personnel de https://github.com/Melvynx/Parler par Calvin Leger, lui meme étant un fork depuis [cjpais/Handy](https://github.com/cjpais/Handy).
 
 ---
 
@@ -66,6 +66,4 @@ MIT — voir [LICENSE](LICENSE)
 ## Remerciements
 
 - [cjpais/Handy](https://github.com/cjpais/Handy) — le projet original
-- OpenAI Whisper — modèle de reconnaissance vocale
-- NVIDIA Parakeet — modèle optimisé CPU
-- Tauri — framework d'application desktop
+- https://github.com/Melvynx/Parler - Projet du créateur Melvynx qui à amelioré le projet original et qui à donné la philosophie global de "Cause" qui en est un fork direct.
